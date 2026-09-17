@@ -1,3 +1,5 @@
+import { Star, User, Quote } from 'lucide-react';
+
 export default function Students() {
   const stories = [
     {
@@ -24,64 +26,69 @@ export default function Students() {
   ];
 
   return (
-    <section id="students" className="py-20 md:py-28 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="students" className="py-24 md:py-32 bg-stone-50">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-semibold mb-4">
+        <div className="max-w-2xl mb-16">
+          <span className="inline-block text-xs font-semibold tracking-widest uppercase text-amber-600 mb-3">
             Student Stories
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-5 tracking-tight">
             Faces of Hope
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-500 leading-relaxed">
             Every child we support carries a dream. These are some of the stories that inspire us to keep going.
           </p>
         </div>
 
         {/* Stories */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-6">
           {stories.map((story, i) => (
-            <div key={i} className="bg-gradient-to-b from-white to-gray-50 rounded-3xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              {/* Avatar area */}
-              <div className="bg-gradient-to-br from-blue-600 to-indigo-700 p-6 text-center">
-                <div className="w-20 h-20 mx-auto bg-white/20 rounded-full flex items-center justify-center mb-3">
-                  <span className="text-3xl">
-                    {story.name === 'Student of the Week' ? '⭐' : '👦'}
-                  </span>
+            <div key={i} className="bg-white rounded-2xl border border-stone-200/60 overflow-hidden hover:shadow-sm transition-all duration-300">
+              {/* Header */}
+              <div className="bg-slate-900 p-6 text-center">
+                <div className="w-16 h-16 mx-auto bg-white/10 rounded-full flex items-center justify-center mb-3 border border-white/10">
+                  {story.name === 'Student of the Week' ? (
+                    <Star className="w-7 h-7 text-amber-400" strokeWidth={1.5} />
+                  ) : (
+                    <User className="w-7 h-7 text-white/70" strokeWidth={1.5} />
+                  )}
                 </div>
-                <h3 className="text-white font-bold text-lg">{story.name}</h3>
-                {story.age && <p className="text-blue-200 text-sm">Age: {story.age}</p>}
-                <span className="inline-block mt-2 px-3 py-1 bg-white/20 rounded-full text-white text-xs font-medium">
+                <h3 className="text-white font-semibold text-base">{story.name}</h3>
+                {story.age && <p className="text-white/40 text-xs mt-0.5">Age: {story.age}</p>}
+                <span className="inline-block mt-3 px-3 py-1 bg-white/10 border border-white/10 rounded-md text-white/80 text-xs font-medium">
                   {story.status}
                 </span>
               </div>
               
               {/* Content */}
               <div className="p-6">
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                <p className="text-slate-500 text-sm leading-relaxed mb-5">
                   {story.story}
                 </p>
-                <blockquote className="border-l-4 border-amber-400 pl-4 italic text-gray-700 text-sm">
-                  {story.quote}
-                </blockquote>
+                <div className="flex items-start gap-3 border-t border-stone-100 pt-4">
+                  <Quote className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+                  <p className="italic text-slate-600 text-sm leading-relaxed">
+                    {story.quote}
+                  </p>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="mt-16 text-center bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl p-8 md:p-12 border border-amber-200">
-          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+        <div className="mt-16 text-center bg-white rounded-2xl p-8 md:p-12 border border-stone-200/60">
+          <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4 tracking-tight">
             Every Child Deserves a Chance
           </h3>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-6">
+          <p className="text-slate-500 max-w-2xl mx-auto mb-8">
             There are many more children like Guhram and Jawad waiting for support. 
             Your contribution can change a child's life forever.
           </p>
           <a
-            href="#get-involved"
-            className="inline-block px-8 py-4 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-full text-lg transition-all shadow-lg hover:shadow-xl"
+            href="#contact"
+            className="inline-block px-8 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-lg text-sm tracking-wide transition-all shadow-sm"
           >
             Sponsor a Student
           </a>
