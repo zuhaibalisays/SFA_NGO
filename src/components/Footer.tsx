@@ -5,7 +5,8 @@ interface FooterProps {
   onLegalOpen: (type: LegalType) => void;
 }
 
-const LOGO_URL = 'https://raw.githubusercontent.com/zuhaibalisays/SFA_NGO/main/SFA%20Logo.png';
+// Local favicon used as the footer logo — references the file in public/
+const LOGO_URL = '/android-icon-192x192.png';
 
 // X (Twitter) icon component — kept available for future use when profile URL is added
 // function XIcon({ className }: { className?: string }) {

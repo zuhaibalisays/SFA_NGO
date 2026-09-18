@@ -5,7 +5,8 @@ interface NavbarProps {
   scrolled: boolean;
 }
 
-const LOGO_URL = 'https://raw.githubusercontent.com/zuhaibalisays/SFA_NGO/main/SFA%20Logo.png';
+// Local favicon used as the navbar logo — references the file in public/
+const LOGO_URL = '/android-icon-192x192.png';
 
 export default function Navbar({ scrolled }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
