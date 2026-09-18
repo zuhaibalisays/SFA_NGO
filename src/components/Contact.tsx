@@ -71,28 +71,18 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-slate-900">Phone</p>
-                    <p className="text-sm text-slate-500 mt-0.5">+92 XXX XXXXXXX</p>
+                    <p className="text-sm text-slate-500 mt-0.5">0322 2773334</p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="bg-slate-900 rounded-2xl p-6">
-              <h3 className="font-semibold text-white mb-3 text-sm tracking-wide uppercase">Office Hours</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Monday – Friday</span>
-                  <span className="text-white font-medium">9:00 AM – 5:00 PM</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Saturday</span>
-                  <span className="text-white font-medium">10:00 AM – 2:00 PM</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Sunday</span>
-                  <span className="text-white font-medium">Closed</span>
-                </div>
-              </div>
+              <h3 className="font-semibold text-white mb-3 text-sm tracking-wide uppercase">Our Mission</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Every contribution matters. Whether you want to sponsor a student, donate supplies, or simply spread the word — 
+                your support helps us reach more children in need across Balochistan.
+              </p>
             </div>
           </div>
 
