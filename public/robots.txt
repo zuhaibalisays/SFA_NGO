@@ -1,0 +1,12 @@
+# robots.txt for School for All Welfare Organization (SFA)
+# https://schoolforall.org (production domain to be configured)
+
+User-agent: *
+Allow: /
+
+# Sitemap location (update with actual production domain)
+Sitemap: https://schoolforall.org/sitemap.xml
+
+# Disallow any future admin or private routes
+# Disallow: /admin
+# Disallow: /private

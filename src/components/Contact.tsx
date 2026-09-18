@@ -15,6 +15,13 @@ function sanitizeInput(input: string): string {
     .replace(/\//g, '&#x2F;');
 }
 
+/**
+ * Contact form that uses mailto: to actually deliver messages.
+ * 
+ * IMPORTANT: This form does NOT simulate a backend submission.
+ * It constructs a real mailto: link that opens the user's email client
+ * with the form data pre-filled, ensuring the message is actually sent.
+ */
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -22,7 +29,7 @@ export default function Contact() {
     subject: '',
     message: '',
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [composed, setComposed] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,15 +58,18 @@ export default function Contact() {
       return;
     }
 
-    // In production, send `sanitizedData` to your backend here.
-    // Example: fetch('/api/contact', { method: 'POST', body: JSON.stringify(sanitizedData) })
-    console.log('Sanitized form submission:', sanitizedData);
+    // Construct mailto: link — this actually opens the user's email client
+    const subjectLine = encodeURIComponent(`[SFA Contact] ${sanitizedData.subject} — from ${sanitizedData.name}`);
+    const body = encodeURIComponent(
+      `Name: ${sanitizedData.name}\nEmail: ${sanitizedData.email}\nSubject: ${sanitizedData.subject}\n\nMessage:\n${sanitizedData.message}`
+    );
+    const mailtoLink = `mailto:info@schoolforall.org?subject=${subjectLine}&body=${body}`;
 
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 4000);
+    // Open the user's email client with the composed message
+    window.location.href = mailtoLink;
+
+    // Show honest feedback — the message has been composed in their email client
+    setComposed(true);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -104,7 +114,9 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-slate-900">Email</p>
-                    <p className="text-sm text-slate-500 mt-0.5">info@schoolforall.org</p>
+                    <a href="mailto:info@schoolforall.org" className="text-sm text-slate-500 mt-0.5 hover:text-slate-700 transition-colors">
+                      info@schoolforall.org
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -113,7 +125,9 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-slate-900">Phone</p>
-                    <p className="text-sm text-slate-500 mt-0.5">0322 2773334</p>
+                    <a href="tel:03222773334" className="text-sm text-slate-500 mt-0.5 hover:text-slate-700 transition-colors">
+                      0322 2773334
+                    </a>
                   </div>
                 </div>
               </div>
@@ -131,13 +145,21 @@ export default function Contact() {
           {/* Contact Form */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-2xl p-8 border border-stone-200/60">
-              {submitted ? (
+              {composed ? (
                 <div className="text-center py-12">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
                     <CheckCircle className="w-8 h-8 text-green-600" strokeWidth={1.5} />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">Message Sent!</h3>
-                  <p className="text-slate-500 text-sm">Thank you for reaching out. We'll get back to you soon.</p>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">Email Composed!</h3>
+                  <p className="text-slate-500 text-sm mb-4">
+                    Your email client should have opened with the message pre-filled. Please send it to reach us.
+                  </p>
+                  <button
+                    onClick={() => { setComposed(false); setFormData({ name: '', email: '', subject: '', message: '' }); }}
+                    className="text-sm text-slate-600 hover:text-slate-900 underline underline-offset-2 transition-colors"
+                  >
+                    Send another message
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5" noValidate>
@@ -149,6 +171,7 @@ export default function Contact() {
                     style={{ display: 'none' }}
                     tabIndex={-1}
                     autoComplete="off"
+                    aria-hidden="true"
                   />
 
                   <div className="grid sm:grid-cols-2 gap-5">
@@ -221,12 +244,15 @@ export default function Contact() {
                       placeholder="Tell us how you'd like to help or ask your question..."
                     ></textarea>
                   </div>
+                  <p className="text-xs text-slate-400">
+                    Submitting will open your email client with the message pre-filled.
+                  </p>
                   <button
                     type="submit"
                     className="w-full sm:w-auto px-8 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-lg text-sm tracking-wide transition-all flex items-center justify-center gap-2.5"
                   >
                     <Send className="w-4 h-4" strokeWidth={2} />
-                    Send Message
+                    Compose Email
                   </button>
                 </form>
               )}

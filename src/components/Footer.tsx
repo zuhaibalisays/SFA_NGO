@@ -1,4 +1,4 @@
-import { BookOpen, MapPin, Mail, Clock, Facebook, Instagram, Youtube, ChevronRight, Check, ExternalLink } from 'lucide-react';
+import { BookOpen, MapPin, Mail, Phone, Clock, Facebook, Instagram, Youtube, ChevronRight, Check, ExternalLink } from 'lucide-react';
 import type { LegalType } from '../App';
 
 interface FooterProps {
@@ -108,7 +108,15 @@ export default function Footer({ onLegalOpen }: FooterProps) {
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="w-4 h-4 text-slate-500 mt-0.5 flex-shrink-0" strokeWidth={1.8} />
-                <span className="text-slate-400 text-sm">info@schoolforall.org</span>
+                <a href="mailto:info@schoolforall.org" className="text-slate-400 text-sm hover:text-white transition-colors">
+                  info@schoolforall.org
+                </a>
+              </li>
+              <li className="flex items-start gap-3">
+                <Phone className="w-4 h-4 text-slate-500 mt-0.5 flex-shrink-0" strokeWidth={1.8} />
+                <a href="tel:03222773334" className="text-slate-400 text-sm hover:text-white transition-colors">
+                  0322 2773334
+                </a>
               </li>
               <li className="flex items-start gap-3">
                 <Clock className="w-4 h-4 text-slate-500 mt-0.5 flex-shrink-0" strokeWidth={1.8} />
