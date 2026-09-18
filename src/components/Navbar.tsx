@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { Menu, X, BookOpen } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 interface NavbarProps {
   scrolled: boolean;
 }
+
+const LOGO_URL = 'https://raw.githubusercontent.com/zuhaibalisays/SFA_NGO/main/SFA%20Logo.png';
 
 export default function Navbar({ scrolled }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -29,8 +31,13 @@ export default function Navbar({ scrolled }: NavbarProps) {
         <div className="flex items-center justify-between h-18 md:h-20">
           {/* Logo */}
           <a href="#" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
-              <BookOpen className="w-5 h-5 md:w-5.5 md:h-5.5 text-amber-400" strokeWidth={1.8} />
+            <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl overflow-hidden flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow bg-white">
+              <img
+                src={LOGO_URL}
+                alt="SFA Logo"
+                className="w-full h-full object-contain"
+                loading="eager"
+              />
             </div>
             <div className="leading-tight">
               <span className={`font-semibold text-lg tracking-tight ${scrolled ? 'text-slate-900' : 'text-white'}`}>

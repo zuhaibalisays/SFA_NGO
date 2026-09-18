@@ -1,6 +1,20 @@
 import { useState } from 'react';
 import { Send, MapPin, Mail, Phone, CheckCircle } from 'lucide-react';
 
+/**
+ * Sanitizes user input to prevent XSS attacks.
+ * Escapes HTML special characters so injected scripts cannot execute.
+ */
+function sanitizeInput(input: string): string {
+  return input
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;');
+}
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -10,9 +24,37 @@ export default function Contact() {
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Simulate form submission
+
+    // --- SPAM PROTECTION: Honeypot check ---
+    // The hidden checkbox "botcheck" is invisible to real users.
+    // If a bot auto-fills it, we silently discard the submission.
+    const form = e.currentTarget;
+    const honeypot = form.querySelector<HTMLInputElement>('input[name="botcheck"]');
+    if (honeypot && honeypot.checked) {
+      // Bot detected — discard silently without showing success
+      console.warn('Form submission blocked: honeypot triggered.');
+      return;
+    }
+
+    // --- INPUT SANITIZATION: Prevent XSS ---
+    const sanitizedData = {
+      name: sanitizeInput(formData.name.trim()),
+      email: sanitizeInput(formData.email.trim()),
+      subject: sanitizeInput(formData.subject.trim()),
+      message: sanitizeInput(formData.message.trim()),
+    };
+
+    // Basic validation after sanitization
+    if (!sanitizedData.name || !sanitizedData.email || !sanitizedData.subject || !sanitizedData.message) {
+      return;
+    }
+
+    // In production, send `sanitizedData` to your backend here.
+    // Example: fetch('/api/contact', { method: 'POST', body: JSON.stringify(sanitizedData) })
+    console.log('Sanitized form submission:', sanitizedData);
+
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
@@ -71,28 +113,18 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-slate-900">Phone</p>
-                    <p className="text-sm text-slate-500 mt-0.5">+92 XXX XXXXXXX</p>
+                    <p className="text-sm text-slate-500 mt-0.5">0322 2773334</p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="bg-slate-900 rounded-2xl p-6">
-              <h3 className="font-semibold text-white mb-3 text-sm tracking-wide uppercase">Office Hours</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Monday – Friday</span>
-                  <span className="text-white font-medium">9:00 AM – 5:00 PM</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Saturday</span>
-                  <span className="text-white font-medium">10:00 AM – 2:00 PM</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Sunday</span>
-                  <span className="text-white font-medium">Closed</span>
-                </div>
-              </div>
+              <h3 className="font-semibold text-white mb-3 text-sm tracking-wide uppercase">Our Mission</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Every contribution matters. Whether you want to sponsor a student, donate supplies, or simply spread the word — 
+                your support helps us reach more children in need across Balochistan.
+              </p>
             </div>
           </div>
 
@@ -108,7 +140,17 @@ export default function Contact() {
                   <p className="text-slate-500 text-sm">Thank you for reaching out. We'll get back to you soon.</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                  {/* SECURITY: Honeypot field — hidden from real users, catches bots */}
+                  <input
+                    type="checkbox"
+                    name="botcheck"
+                    className="hidden"
+                    style={{ display: 'none' }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div>
                       <label htmlFor="name" className="block text-xs font-medium text-slate-700 mb-2 uppercase tracking-wide">
@@ -121,6 +163,7 @@ export default function Contact() {
                         value={formData.name}
                         onChange={handleChange}
                         required
+                        maxLength={100}
                         className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-300 transition-all"
                         placeholder="Your name"
                       />
@@ -136,6 +179,7 @@ export default function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         required
+                        maxLength={150}
                         className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-300 transition-all"
                         placeholder="you@example.com"
                       />
@@ -171,6 +215,7 @@ export default function Contact() {
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      maxLength={2000}
                       rows={5}
                       className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-300 transition-all resize-none"
                       placeholder="Tell us how you'd like to help or ask your question..."
