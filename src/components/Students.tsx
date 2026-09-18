@@ -93,6 +93,13 @@ export default function Students() {
             Sponsor a Student
           </a>
         </div>
+
+        {/* Child Protection Disclosure */}
+        <div className="mt-10 max-w-3xl mx-auto">
+          <p className="text-center text-xs text-slate-400 leading-relaxed italic border-t border-stone-200/60 pt-6">
+            <strong className="text-slate-500 not-italic">Child Protection Notice:</strong> All student images, names, and stories featured on this website are published with explicit, written consent from parents or legal guardians. The privacy, dignity, and safety of the children we serve remain our highest priority.
+          </p>
+        </div>
       </div>
     </section>
   );

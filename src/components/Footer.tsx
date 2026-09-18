@@ -7,14 +7,14 @@ interface FooterProps {
 
 const LOGO_URL = 'https://raw.githubusercontent.com/zuhaibalisays/SFA_NGO/main/SFA%20Logo.png';
 
-// Custom X (Twitter) icon component
-function XIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
-  );
-}
+// X (Twitter) icon component — kept available for future use when profile URL is added
+// function XIcon({ className }: { className?: string }) {
+//   return (
+//     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+//       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+//     </svg>
+//   );
+// }
 
 export default function Footer({ onLegalOpen }: FooterProps) {
   return (
@@ -116,7 +116,7 @@ export default function Footer({ onLegalOpen }: FooterProps) {
               </li>
             </ul>
 
-            {/* Social Links */}
+            {/* Social Links — only active profiles are shown */}
             <div className="flex gap-2 mt-6">
               <a
                 href="https://www.facebook.com/SchoolForAllWelfareOrganization"
@@ -127,15 +127,7 @@ export default function Footer({ onLegalOpen }: FooterProps) {
               >
                 <Facebook className="w-4 h-4 text-slate-400" strokeWidth={1.8} />
               </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center transition-colors border border-slate-700/50"
-                aria-label="X (Twitter)"
-              >
-                <XIcon className="w-3.5 h-3.5 text-slate-400" />
-              </a>
+              {/* X (Twitter) icon hidden — no active profile URL provided yet */}
               <a
                 href="https://www.instagram.com/school_for_all_welfare_org/"
                 target="_blank"
